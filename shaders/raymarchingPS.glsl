@@ -6,7 +6,7 @@ uniform sampler2D heightMap;
 
 in vec4 vPos;
 //this is in uv coordinate
-vec3 sunPos = vec3(0.1, 0.8, 2.2);
+vec3 sunPos = vec3(0.1, 0.9, 2);
 int steps = 500;
 
 out vec4 vColor;
