@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project version="2">
 	<pipeline>
-		<pass name="gbuffer" type="shader" active="true" patchverts="1" collapsed="true">
+		<pass name="gbuffer" type="shader" active="true" patchverts="1">
 			<shader type="vs" path="shaders\gbufferVS.glsl" entry="main" />
 			<shader type="ps" path="shaders\gbufferPS.glsl" entry="main" />
 			<inputlayout>
@@ -66,18 +66,20 @@
 	</objects>
 	<cameras />
 	<settings>
+		<entry type="property" name="gbuffer" item="pipe" />
 		<entry type="file" name="gbuffer" shader="vs" />
 		<entry type="file" name="gbuffer" shader="ps" />
 		<entry type="file" name="raymarching" shader="vs" />
 		<entry type="file" name="raymarching" shader="ps" />
 		<entry type="camera" fp="false">
-			<distance>9</distance>
+			<distance>13</distance>
 			<pitch>28</pitch>
 			<yaw>317</yaw>
 			<roll>360</roll>
 		</entry>
 		<entry type="clearcolor" r="0" g="0" b="0" a="0" />
 		<entry type="usealpha" val="false" />
+		<entry type="bkpt" file="E:/ShaderED/Win64/examples/Mine/shaders/gbufferPS.glsl" line="221" use_cond="false" cond="" enabled="true" />
 		<entry type="bkpt" file="E:/ShaderED/Win64/examples/Mine/shaders/gbufferPS.glsl" line="220" use_cond="false" cond="" enabled="true" />
 		<entry type="bkpt" file="E:/ShaderED/Win64/examples/Mine/shaders/gbufferPS.glsl" line="219" use_cond="false" cond="" enabled="true" />
 		<entry type="bkpt" file="E:/ShaderED/Win64/examples/Mine/shaders/gbufferPS.glsl" line="218" use_cond="false" cond="" enabled="true" />

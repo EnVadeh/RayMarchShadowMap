@@ -20,25 +20,26 @@ vec2 randomGradient(vec2 pos){
 	float y = dot(pos, vec2(111.0, 248.0));
 	vec2 Gradient = vec2(x, y);
 	Gradient = sin(Gradient);
-	Gradient *= 20.0;
+	Gradient *= 18.0;
 	Gradient = sin(Gradient + 5);
 	return Gradient;
 }
 
 vec4 color_tile(vec4 tile){
-    if (tile.x <=0.4)
+    if (tile.x <=0.425)
     tile = vec4(0, 1, 1, 1.0);
     heightMap = tile;
     if (tile.x > 0.8) tile = vec4(0.7, 0.7, 0.7, 1);       
     else if (tile.x > 0.6) tile = vec4(0.4, 0.8, 0.1, 1);  
-    else if (tile.x > 0.4) tile = vec4(0.3, 0.5, 0.1, 1);
+    else if (tile.x > 0.45) tile = vec4(0.3, 0.5, 0.1, 1);
+    else if (tile.x > 0.425) tile = vec4(0.7, 0.7, 0.1, 1);
     return tile;
 	
 }
 
 
 float perlin(vec2 uv) {
-    uv *= 18.0;
+    uv *= 23.0;
     vec2 gridId = floor(uv);
     vec2 gridUV = fract(uv);
 
@@ -87,7 +88,7 @@ float fBm(vec2 uv) {
 
 void main(){
 
-	if(vPos.x < -0.4 || vPos.x > 0.4 || vPos.y < -0.4 || vPos.y > 0.4)
+	if(vPos.x < -0.6 || vPos.x > 0.6 || vPos.y < -0.6 || vPos.y > 0.6)
 		outColor = vec4(0.0, 1.0, 1.0, 1.0);
 	/*else if(vPos.x > 0.4 && vPos.x < 0){
 		vec2 uv = vPos.xy;
@@ -110,11 +111,10 @@ void main(){
 		float p = perlin(uv);
 		p = 1 - p;
 		float dist = distance(vPos.xy, vec2(0.0, 0.0));
-		float elevation = 1.0 - smoothstep(0.0, 0.4, dist);
-        float height = mix(p, elevation, 0.6);
+		float elevation = 1.0 - smoothstep(0.0, 0.76, dist);
+        float height = mix(p, elevation, 0.81);
         outColor = vec4(height);
 		outColor = vec4(height, height, height, 1.0);
-
 		outColor = color_tile(outColor);
 	}
 
