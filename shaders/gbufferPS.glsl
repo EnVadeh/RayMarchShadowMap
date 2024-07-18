@@ -6,6 +6,8 @@ in vec3 vTex;
 in vec4 vPos;
 
 layout(location = 1) out vec4 heightMap;
+layout(location = 0) out vec4 outColor;
+
 
 vec2 quintic(vec2 p) {
   return p * p * p * (10.0 + p * (-15.0 + p * 6.0));
@@ -23,24 +25,16 @@ vec2 randomGradient(vec2 pos){
 
 vec4 color_tile(vec4 tile){
 	vec4 colored_tile = tile;
-	heightMap = tile;
-
+	heightMap = tile;	
+    if (tile.x > 0.8) colored_tile = vec4(0.7, 0.7, 0.7, 1);       
+    else if (tile.x > 0.6) colored_tile = vec4(0.4, 0.8, 0.1, 1);  
+    else if (tile.x > 0.4) colored_tile = vec4(0.3, 0.5, 0.1, 1);  
+    else if (tile.x > 0.2) colored_tile = vec4(0.6, 0.6, 0.1, 1);  
+    else if (tile.x > 0.1) colored_tile = vec4(0.8, 0.8, 0.0, 1);  
+    else colored_tile = vec4(0.0, 1.0, 1.0, 1.0);                  
+    return colored_tile;
 	
-	
-	if(tile.x > 0.8 && tile.x < 0.9)
-		colored_tile = vec4(0.7, 0.7, 0.7, 1);
-	else if(tile.x <= 0.8 && tile.x > 0.6)
-		colored_tile = vec4(0.4, 0.8, 0.1, 1);
-	else if(tile.x <= 0.6 && tile.x > 0.5)
-		colored_tile = vec4(0.3, 0.5, 0.1, 1);
-	else if(tile.x <=0.5 && tile.x > 0.2)
-		colored_tile = vec4(0.6, 0.6, 0.1, 1);
-	else if(tile.x <= 0.2)
-		colored_tile = vec4 (0.0, 1.0, 1.0, 1.0);
-	return colored_tile;
 }
-
-out vec4 outColor;
 
 
 void main(){
@@ -49,8 +43,7 @@ void main(){
 		outColor = vec4(0.0, 1.0, 1.0, 1.0);
 	else{
 		vec2 uv = vPos.xy;
-		uv.x = (uv.x + 1)/2;
-		uv.y = (uv.y + 1)/2;
+		uv = (uv+1)/2;
 		uv *= 64.0;
 		vec2 gridId = floor(uv);
 		vec2 gridUV= fract(uv);
@@ -85,16 +78,10 @@ void main(){
 		perlin = 1 - perlin;
 		
 		float dist = distance(vPos.xy, vec2(0.0, 0.0));
+		float elevation = 1.0 - smoothstep(0.0, 0.4, dist);
+		float height = mix(perlin, elevation, 0.6);
+		outColor = vec4(height);
 		
-		float opp = clamp(1 - dist,0, 1);
-		outColor = vec4(perlin) * opp;
-		//tried to cheat here, it looks so shit... 
-		/*if(dist < 0.2 && outColor.x < 0.5)
-			outColor += vec4(0.5, 0.5, 0.5,1);
-		if(dist < 0.1 && outColor.x > 0.5 && outColor.y < 0.8)
-			outColor += vec4(0.2, 0.2, 0.2,1);
-		if(dist > 0.48 && outColor.x > 0.4)
-			outColor *= vec4(0.0, 1.0, 1.0, 1);*/
 		outColor = color_tile(outColor);
 		
 	}

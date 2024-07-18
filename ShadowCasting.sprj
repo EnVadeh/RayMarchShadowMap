@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project version="2">
 	<pipeline>
-		<pass name="gbuffer" type="shader" active="true" patchverts="1">
+		<pass name="gbuffer" type="shader" active="true" patchverts="1" collapsed="true">
 			<shader type="vs" path="shaders\gbufferVS.glsl" entry="main" />
 			<shader type="ps" path="shaders\gbufferPS.glsl" entry="main" />
 			<inputlayout>
@@ -9,7 +9,7 @@
 				<item value="Normal" semantic="NORMAL" />
 				<item value="Texcoord" semantic="TEXCOORD0" />
 			</inputlayout>
-			<rendertexture />
+			<rendertexture name="ColorMap" />
 			<rendertexture name="HeightMap" />
 			<items>
 				<item name="tri" type="geometry">
@@ -29,25 +29,61 @@
 			</variables>
 			<macros />
 		</pass>
+		<pass name="raymarching" type="shader" active="true" patchverts="1" collapsed="true">
+			<shader type="vs" path="shaders\raymarchingVS.glsl" entry="main" />
+			<shader type="ps" path="shaders\raymarchingPS.glsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture />
+			<items>
+				<item name="Screen" type="geometry">
+					<type>ScreenQuad</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="matOrtho" system="Orthographic" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float2" name="ScreenRes" system="ViewportSize" />
+			</variables>
+			<macros />
+		</pass>
 	</pipeline>
 	<objects>
-		<object type="rendertexture" name="HeightMap" rsize="1.000000,1.000000" clear="true" />
+		<object type="rendertexture" name="HeightMap" rsize="1.000000,1.000000" clear="true">
+			<bind slot="1" name="raymarching" />
+		</object>
+		<object type="rendertexture" name="ColorMap" rsize="1.000000,1.000000" clear="true">
+			<bind slot="0" name="raymarching" />
+		</object>
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="gbuffer" item="pipe" />
+		<entry type="property" name="raymarching" item="pipe" />
 		<entry type="file" name="gbuffer" shader="vs" />
 		<entry type="file" name="gbuffer" shader="ps" />
+		<entry type="file" name="raymarching" shader="vs" />
+		<entry type="file" name="raymarching" shader="ps" />
 		<entry type="camera" fp="false">
-			<distance>4</distance>
+			<distance>7</distance>
 			<pitch>28</pitch>
 			<yaw>317</yaw>
 			<roll>360</roll>
 		</entry>
 		<entry type="clearcolor" r="0" g="0" b="0" a="0" />
 		<entry type="usealpha" val="false" />
-		<entry type="bkpt" file="E:/ShaderED/Win64/examples/Mine/shaders/gbufferPS.glsl" line="52" use_cond="false" cond="" enabled="true" />
-		<entry type="bkpt" file="E:/ShaderED/Win64/examples/Mine/shaders/gbufferPS.glsl" line="51" use_cond="false" cond="" enabled="true" />
+		<entry type="bkpt" file="E:/ShaderED/Win64/examples/Mine/shaders/gbufferPS.glsl" line="132" use_cond="false" cond="" enabled="true" />
+		<entry type="bkpt" file="E:/ShaderED/Win64/examples/Mine/shaders/gbufferPS.glsl" line="131" use_cond="false" cond="" enabled="true" />
+		<entry type="bkpt" file="E:/ShaderED/Win64/examples/Mine/shaders/gbufferPS.glsl" line="130" use_cond="false" cond="" enabled="true" />
+		<entry type="bkpt" file="E:/ShaderED/Win64/examples/Mine/shaders/gbufferPS.glsl" line="129" use_cond="false" cond="" enabled="true" />
+		<entry type="bkpt" file="E:/ShaderED/Win64/examples/Mine/shaders/gbufferPS.glsl" line="128" use_cond="false" cond="" enabled="true" />
 	</settings>
 	<plugindata />
 </project>
